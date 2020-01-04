@@ -48,15 +48,18 @@ class App extends React.Component<
 
       // Get the contract instance.
       const networkId: number = await web3.eth.net.getId()
-      let networks: any = EarthContract.networks
+      const networks: any = EarthContract.networks
       const deployedNetwork: any = networks[networkId]
       const instance: any = new web3.eth.Contract(
         EarthContract.abi,
         deployedNetwork && deployedNetwork.address
       )
-      let name: string = await instance.methods.name().call()
-      let symbol: string = await instance.methods.symbol().call()
-      let balance: number = await instance.methods.balances(accounts[0]).call()
+      console.log(instance)
+      const name: string = await instance.methods.name().call()
+      const symbol: string = await instance.methods.symbol().call()
+      const balance: number = await instance.methods
+        .balances(accounts[0])
+        .call()
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
