@@ -127,6 +127,95 @@ let main = async () => {
         "stores the allowance for delegated trasnfer"
       )
     })
+
+    it("handles delegated token transfers", async () => {
+      let instance = await Earth.deployed()
+      fromAccount = accounts[2]
+      toAccount = accounts[3]
+      spendingAccount = accounts[4]
+
+      // Transfer some tokens to fromAccount
+      let receipt = await instance.transfer(fromAccount, 100, {
+        from: accounts[0]
+      })
+
+      // Approve spendingAccount to spend 10 tokens form fromAccount
+      receipt = await instance.approve(spendingAccount, 10, {
+        from: fromAccount
+      })
+
+      try {
+        receipt = await instance.transferFrom(fromAccount, toAccount, 9999, {
+          from: spendingAccount
+        })
+      } catch (error) {
+        assert(
+          error.hijackedStack.indexOf("revert") >= 0,
+          "cannot transfer value larger than balance"
+        )
+      }
+
+      try {
+        receipt = await instance.transferFrom(fromAccount, toAccount, 20, {
+          from: spendingAccount
+        })
+      } catch (error) {
+        assert(
+          error.hijackedStack.indexOf("revert") >= 0,
+          "cannot transfer value larger than approved amount"
+        )
+      }
+
+      let success = await instance.transferFrom.call(
+        fromAccount,
+        toAccount,
+        10,
+        {
+          from: spendingAccount
+        }
+      )
+      assert.equal(success, true)
+
+      receipt = await instance.transferFrom(fromAccount, toAccount, 10, {
+        from: spendingAccount
+      })
+      assert.equal(receipt.logs.length, 1, "triggers one event")
+      assert.equal(
+        receipt.logs[0].event,
+        "Transfer",
+        'should be the "Transfer" event'
+      )
+      assert.equal(
+        receipt.logs[0].args.from,
+        fromAccount,
+        "logs the account the tokens are transferred from"
+      )
+      assert.equal(
+        receipt.logs[0].args.to,
+        toAccount,
+        "logs the account the tokens are transferred to"
+      )
+      assert.equal(receipt.logs[0].args.value, 10, "logs the transfer amount")
+
+      let balance = await instance.balanceOf(fromAccount)
+      assert.equal(
+        balance.toNumber(),
+        90,
+        "deducts the amount from the sending account"
+      )
+      balance = await instance.balanceOf(toAccount)
+      assert.equal(
+        balance.toNumber(),
+        10,
+        "adds the amount from the receiving account"
+      )
+      let allowance = await instance.allowance(fromAccount, spendingAccount)
+      assert.equal(
+        allowance.toNumber(),
+        0,
+        "deducts the amount from the allowance"
+      )
+    })
   })
 }
 main()
