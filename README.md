@@ -1,6 +1,8 @@
-EARTH Contract
+# EARTH Contract
 
 ## Intro
+
+_Coming soon_
 
 ## Getting Started
 
