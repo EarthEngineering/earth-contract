@@ -5691,12 +5691,12 @@
         }
       },
       "links": {},
-      "address": "0x7748EA19C50Ab302e9412a55Ea4C863A2c5DbCd5",
-      "transactionHash": "0x0b6c67fb7f26cae93ee8be0b75e8fec1f52919883063a83852d8366576965496"
+      "address": "0xE17eE43a0c060fAF0D3AbDb7a969BF13cD7107b7",
+      "transactionHash": "0xdac10270f7d3d6abe6848b8d00a70a24939f763a0dcf2cb6391a6c25ad6d0153"
     }
   },
   "schemaVersion": "3.0.20",
-  "updatedAt": "2020-01-04T16:36:33.237Z",
+  "updatedAt": "2020-01-04T18:00:56.190Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
