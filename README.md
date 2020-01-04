@@ -39,6 +39,32 @@ Run the test suite
 truffle test
 ```
 
+## Events
+
+### Transfer
+
+Emitted each time a transfer happens
+
+```solidity
+event Transfer(
+    address indexed from,
+    address indexed to,
+    uint256 value
+);
+```
+
+### Approval
+
+Emmitted each time a delegated transfer is approved
+
+```solidity
+event Approval(
+    address indexed owner,
+    address indexed spender,
+    uint256 value
+);
+```
+
 ## More Info
 
 Find out more about EARTH: https://www.earth.engineering
@@ -49,3 +75,7 @@ Find out more about EARTH: https://www.earth.engineering
 - [Github](https://github.com/earthengineering)
 - [Email](gabriel.earth.engineering@gmail.com)
 - [Blog](https://blog.earth.engineering)
+
+```
+
+```
