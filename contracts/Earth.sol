@@ -1,4 +1,4 @@
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity >=0.5.11 <0.7.0;
 
 contract Earth {
     string public name = "EARTH Token";
@@ -18,21 +18,21 @@ contract Earth {
         uint256 value
     );
 
-    mapping(address => uint256) public balanceOf;
+    mapping(address => uint256) public balances;
     mapping(address => mapping(address => uint256)) public allowance;
 
     constructor(uint256 initialSupply) public {
-        balanceOf[msg.sender] = initialSupply;
+        balances[msg.sender] = initialSupply;
         totalSupply = initialSupply;
     }
 
     function transfer(address to, uint256 value) public returns (bool success) {
         // validate in put
-        require(balanceOf[msg.sender] >= value, "Sender doesn't have enough EARTH");
+        require(balances[msg.sender] >= value, "Sender doesn't have enough EARTH");
 
         // update balances
-        balanceOf[msg.sender] -= value;
-        balanceOf[to] += value;
+        balances[msg.sender] -= value;
+        balances[to] += value;
 
         // get sender address
         address from = msg.sender;
@@ -53,13 +53,13 @@ contract Earth {
     }
 
     function transferFrom(address from, address to, uint256 value) public returns (bool success) {
-        require(value <= balanceOf[from], "");
+        require(value <= balances[from], "");
         require(value <= allowance[from][msg.sender], "");
-        // require(balanceOf[from] > value, "From doesn't have enough EARTH");
+        // require(balances[from] > value, "From doesn't have enough EARTH");
         // require(allowance[from][msg.sender] > value, "Sender doesn't have enough EARTH");
 
-        balanceOf[from] -= value;
-        balanceOf[to] += value;
+        balances[from] -= value;
+        balances[to] += value;
 
         allowance[from][msg.sender] -= value;
 
@@ -67,4 +67,8 @@ contract Earth {
 
         return true;
     }
+
+	function getBalance(address addr) public view returns(uint) {
+		return balances[addr];
+	}
 }

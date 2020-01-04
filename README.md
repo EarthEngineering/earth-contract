@@ -43,17 +43,11 @@ truffle test
 
 ### Properties
 
-- name
-  - string
-  - public
-  - "EARTH Token"
-- symbol
-  - string
-  - public
-  - "EARTH"
-- totalSupply
-  - string
-  - public
+```solidity
+string public symbol = "EARTH";
+string public standard = "EARTH Token v0.1.1";
+uint256 public totalSupply;
+```
 
 ### Events
 

@@ -1,4 +1,5 @@
 let Earth = artifacts.require("./Earth.sol")
+let EarthTokenSale = artifacts.require("./EarthTokenSale.sol")
 
 let main = async () => {
   contract("Earth", async accounts => {
@@ -24,7 +25,7 @@ let main = async () => {
         "sets the total supply to 1,000,000"
       )
 
-      let adminBalance = await instance.balanceOf(accounts[0])
+      let adminBalance = await instance.balances(accounts[0])
       assert.equal(
         adminBalance.toNumber(),
         1000000,
@@ -79,14 +80,14 @@ let main = async () => {
       )
       assert.equal(res.logs[0].args.value, 250000, "logs the transfer amount")
 
-      let balance1 = await instance.balanceOf(accounts[1])
+      let balance1 = await instance.balances(accounts[1])
       assert.equal(
         balance1.toNumber(),
         250000,
         "adds the amount to the receiving account"
       )
 
-      let balance0 = await instance.balanceOf(accounts[0])
+      let balance0 = await instance.balances(accounts[0])
       assert.equal(
         balance0.toNumber(),
         750000,
@@ -197,18 +198,19 @@ let main = async () => {
       )
       assert.equal(receipt.logs[0].args.value, 10, "logs the transfer amount")
 
-      let balance = await instance.balanceOf(fromAccount)
+      let balance = await instance.balances(fromAccount)
       assert.equal(
         balance.toNumber(),
         90,
         "deducts the amount from the sending account"
       )
-      balance = await instance.balanceOf(toAccount)
+      balance = await instance.balances(toAccount)
       assert.equal(
         balance.toNumber(),
         10,
         "adds the amount from the receiving account"
       )
+
       let allowance = await instance.allowance(fromAccount, spendingAccount)
       assert.equal(
         allowance.toNumber(),
