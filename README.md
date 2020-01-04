@@ -39,7 +39,23 @@ Run the test suite
 truffle test
 ```
 
-## Events
+## Earth Contract
+
+### Properties
+
+- name
+  - string
+  - public
+  - "EARTH Token"
+- symbol
+  - string
+  - public
+  - "EARTH"
+- totalSupply
+  - string
+  - public
+
+### Events
 
 ### Transfer
 
