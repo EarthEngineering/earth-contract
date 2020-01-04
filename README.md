@@ -85,7 +85,3 @@ Find out more about EARTH: https://www.earth.engineering
 - [Github](https://github.com/earthengineering)
 - [Email](gabriel.earth.engineering@gmail.com)
 - [Blog](https://blog.earth.engineering)
-
-```
-
-```

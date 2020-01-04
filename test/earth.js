@@ -95,6 +95,12 @@ let main = async () => {
       )
     })
 
+    it("gets balance for address", async () => {
+      let instance = await Earth.deployed()
+      let balance = await instance.balances(accounts[0])
+      assert.equal(balance.toNumber(), 750000, "Gets admin accounts balance")
+    })
+
     it("approves tokens for delegated transfer", async () => {
       let instance = await Earth.deployed()
       let success = await instance.approve.call(accounts[1], 100)
