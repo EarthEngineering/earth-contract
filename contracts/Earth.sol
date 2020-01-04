@@ -3,7 +3,7 @@ pragma solidity >=0.4.21 <0.7.0;
 contract Earth {
     string public name = "EARTH Token";
     string public symbol = "EARTH";
-    string public standard = "EARTH Token v0.0.1";
+    string public standard = "EARTH Token v0.1.1";
     uint256 public totalSupply;
 
     event Transfer(
@@ -42,5 +42,13 @@ contract Earth {
 
         return true;
 
+    }
+
+    function approve(address spender, uint256 value) public returns (bool success) {
+        allowance[msg.sender][spender] = value;
+
+        emit Approval(msg.sender, spender, value);
+
+        return true;
     }
 }

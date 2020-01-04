@@ -12,7 +12,7 @@ let main = async () => {
       assert.equal(symbol, "EARTH", "has the correct symbol")
 
       let standard = await instance.standard()
-      assert.equal(standard, "EARTH Token v0.0.1", "has the correct standard")
+      assert.equal(standard, "EARTH Token v0.1.1", "has the correct standard")
     })
 
     it("allocates the initial supply upon deployment", async () => {
@@ -52,7 +52,7 @@ let main = async () => {
         )
       }
 
-      let success = await instance.transfer.call(accounts[1], 260000, {
+      let success = await instance.transfer.call(accounts[1], 250000, {
         from: accounts[0]
       })
       assert.equal(success, true, "it returns true")
@@ -82,15 +82,49 @@ let main = async () => {
       let balance1 = await instance.balanceOf(accounts[1])
       assert.equal(
         balance1.toNumber(),
-        260000,
+        250000,
         "adds the amount to the receiving account"
       )
 
       let balance0 = await instance.balanceOf(accounts[0])
       assert.equal(
         balance0.toNumber(),
-        740000,
+        750000,
         "deducts the amount from the sending account"
+      )
+    })
+
+    it("approves tokens for delegated transfer", async () => {
+      let instance = await Earth.deployed()
+      let success = await instance.approve.call(accounts[1], 100)
+      assert.equal(success, true, "it returns true")
+
+      let receipt = await instance.approve(accounts[1], 100, {
+        from: accounts[0]
+      })
+      assert.equal(receipt.logs.length, 1, "triggers one event")
+      assert.equal(
+        receipt.logs[0].event,
+        "Approval",
+        'should be the "Approval" event'
+      )
+      assert.equal(
+        receipt.logs[0].args.owner,
+        accounts[0],
+        "logs the account the tokens are authorized by"
+      )
+      assert.equal(
+        receipt.logs[0].args.spender,
+        accounts[1],
+        "logs the account the tokens are authorized to"
+      )
+      assert.equal(receipt.logs[0].args.value, 100, "logs the transfer amount")
+
+      let allowance = await instance.allowance(accounts[0], accounts[1])
+      assert.equal(
+        allowance.toNumber(),
+        100,
+        "stores the allowance for delegated trasnfer"
       )
     })
   })
